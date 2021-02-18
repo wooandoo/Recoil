@@ -39,6 +39,22 @@ const zoneRetainedAtomFamily = atomFamily({
   retainedBy_UNSTABLE: zone
 })
 
+const retainedSelector = selector({
+  key: 'RetainedSelector',
+  get: ({ get }) => {
+    return get(retainedAtom)
+  },
+  retainedBy_UNSTABLE: 'components'
+})
+
+const retainedSelectorFamily = selectorFamily({
+  key: 'RetainedSelector',
+  get: (id: string) => ({ get }) => {
+    return get(retainedAtom)
+  },
+  retainedBy_UNSTABLE: 'components'
+})
+
 
 useRetain(retainedAtom)
 useRetain(retainedAtomFamily)

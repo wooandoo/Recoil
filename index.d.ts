@@ -114,6 +114,7 @@ export type ResetRecoilState = (recoilVal: RecoilState<any>) => void; // eslint-
 export interface ReadOnlySelectorOptions<T> {
     key: string;
     get: (opts: { get: GetRecoilValue }) => Promise<T> | RecoilValue<T> | T;
+    retainedBy_UNSTABLE?: RetainedBy; // MEMORY MANAGEMENT
     dangerouslyAllowMutability?: boolean;
 }
 
@@ -335,6 +336,7 @@ export interface ReadOnlySelectorFamilyOptions<T, P extends SerializableParam> {
   // cacheImplementationForParams_UNSTABLE?: () => CacheImplementation<
   //   RecoilValue<T>,
   // >,
+  retainedBy_UNSTABLE?: RetainedBy; // MEMORY MANAGEMENT
   dangerouslyAllowMutability?: boolean;
 }
 

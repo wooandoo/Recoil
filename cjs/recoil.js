@@ -7680,6 +7680,8 @@ var Recoil_WaitFor = {
   noWait
 };
 
+Recoil_gkx_1.setPass('recoil_memory_managament_2020');
+
 const {
   batchUpdates: batchUpdates$3,
   setBatcher: setBatcher$1

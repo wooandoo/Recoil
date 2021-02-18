@@ -8,8 +8,11 @@
  * @flow strict-local
  * @format
  */
-'use strict';
+'use strict'; // enable recoil_memory_managament_2020
 
+const gkx = require('./util/Recoil_gkx');
+
+gkx.setPass('recoil_memory_managament_2020');
 export type { PersistenceType } from './core/Recoil_Node';
 export type { RecoilValue, RecoilState, RecoilValueReadOnly } from './core/Recoil_RecoilValue';
 export type { MutableSnapshot, Snapshot, SnapshotID } from './core/Recoil_Snapshot';

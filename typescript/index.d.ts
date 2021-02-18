@@ -6,9 +6,9 @@
 
 export { };
 
-  import * as React from 'react';
+import * as React from 'react';
 
-// state.d.ts
+  // state.d.ts
 type NodeKey = string;
 
 // node.d.ts
@@ -20,6 +20,49 @@ export class DefaultValue {
 export interface RecoilRootProps {
   initializeState?: (mutableSnapshot: MutableSnapshot) => void;
 }
+
+
+
+
+
+
+// --------------------------------------------------
+
+// MEMORY MANAGEMENT
+
+// https://github.com/facebookexperimental/Recoil/commit/923e4f316c76aca92f481fa6aac5dabf86adee97
+
+
+export class RetentionZone {}
+
+export function retentionZone(): RetentionZone;
+
+export type RetainedBy =
+  | 'components' // only retained directly by components
+  | 'recoilRoot' // lives for the lifetime of the root
+  | RetentionZone // retained whenever this zone or these zones are retained
+  | Array<RetentionZone>;
+
+
+
+// I don't see a way to avoid the any type here because we want to accept readable
+// and writable values with any type parameter, but normally with writable ones
+// RecoilState<SomeT> is not a subtype of RecoilState<mixed>.
+type ToRetain =
+  | RecoilValue<any> // flowlint-line unclear-type:off
+  | RetentionZone
+  | ReadonlyArray<RecoilValue<any> | RetentionZone>; // flowlint-line unclear-type:off
+
+export function useRetain(toRetain: ToRetain): void;
+
+// --------------------------------------------------
+
+
+
+
+
+
+
 
 export const RecoilRoot: React.FC<RecoilRootProps>;
 
@@ -50,6 +93,7 @@ export interface AtomOptions<T> {
   default: RecoilValue<T> | Promise<T> | T;
   effects_UNSTABLE?: ReadonlyArray<AtomEffect<T>>;
   dangerouslyAllowMutability?: boolean;
+  retainedBy_UNSTABLE?: RetainedBy; // MEMORY MANAGEMENT
 }
 
 /**
@@ -277,6 +321,7 @@ export interface AtomFamilyOptions<T, P extends SerializableParam> {
   dangerouslyAllowMutability?: boolean;
   default: RecoilValue<T> | Promise<T> | T | ((param: P) => T | RecoilValue<T> | Promise<T>);
   effects_UNSTABLE?: | ReadonlyArray<AtomEffect<T>> | ((param: P) => ReadonlyArray<AtomEffect<T>>);
+  retainedBy_UNSTABLE?: RetainedBy | ((p: P) => RetainedBy); // MEMORY MANAGEMENT
 }
 
 export function atomFamily<T, P extends SerializableParam>(

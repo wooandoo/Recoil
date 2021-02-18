@@ -1,28 +1,55 @@
-import {
-  atom,
-  atomFamily,
-  constSelector, DefaultValue,
-  errorSelector, isRecoilValue,
-  noWait, readOnlySelector, RecoilBridge, RecoilRoot,
-  RecoilState, RecoilValueReadOnly,
-  selector,
-  selectorFamily,
-  Snapshot,
-  snapshot_UNSTABLE,
-  useGetRecoilValueInfo_UNSTABLE, useGotoRecoilSnapshot,
-  useRecoilBridgeAcrossReactRoots_UNSTABLE, useRecoilCallback,
-  useRecoilSnapshot, useRecoilState,
-  useRecoilStateLoadable,
-  useRecoilTransactionObserver_UNSTABLE, useRecoilValue,
-  useRecoilValueLoadable,
-  useResetRecoilState, useSetRecoilState,
-  waitForAll, waitForAllSettled, waitForAny, waitForNone
-} from 'recoil';
+import { atom, atomFamily, constSelector, DefaultValue, errorSelector, isRecoilValue, noWait, readOnlySelector, RecoilBridge, RecoilRoot, RecoilState, RecoilValueReadOnly, retentionZone, selector, selectorFamily, Snapshot, snapshot_UNSTABLE, useGetRecoilValueInfo_UNSTABLE, useGotoRecoilSnapshot, useRecoilBridgeAcrossReactRoots_UNSTABLE, useRecoilCallback, useRecoilSnapshot, useRecoilState, useRecoilStateLoadable, useRecoilTransactionObserver_UNSTABLE, useRecoilValue, useRecoilValueLoadable, useResetRecoilState, useRetain, useSetRecoilState, waitForAll, waitForAllSettled, waitForAny, waitForNone } from 'recoil';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 // DefaultValue
 new DefaultValue();
+
+
+
+
+
+// --------------------------------------------------
+
+// MEMORY MANAGEMENT
+
+const retainedAtom = atom({
+  key: 'RetainedAtom',
+  default: 5,
+  retainedBy_UNSTABLE: 'components'
+})
+
+const retainedAtomFamily = atomFamily({
+  key: 'RetainedAtom',
+  default: 5,
+  retainedBy_UNSTABLE: 'components'
+})
+
+const zone = retentionZone()
+
+const zoneRetainedAtom = atom({
+  key: 'RetainedAtom',
+  default: 5,
+  retainedBy_UNSTABLE: zone
+})
+
+const zoneRetainedAtomFamily = atomFamily({
+  key: 'RetainedAtom',
+  default: 5,
+  retainedBy_UNSTABLE: zone
+})
+
+
+useRetain(retainedAtom)
+useRetain(retainedAtomFamily)
+useRetain(zone)
+
+
+// --------------------------------------------------
+
+
+
+
 
 // atom
 const myAtom = atom({

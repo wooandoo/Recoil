@@ -10,6 +10,11 @@
  */
 'use strict';
 
+// enable recoil_memory_managament_2020
+
+const gkx = require('./util/Recoil_gkx');
+gkx.setPass('recoil_memory_managament_2020');
+
 export type {PersistenceType} from './core/Recoil_Node';
 export type {
   RecoilValue,
